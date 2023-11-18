@@ -1,0 +1,53 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+img{
+    max-width: 960px;
+    min-width: 320px;
+    width: 450px;
+    height: auto;
+}
+
+header{
+    color:red;
+    border:solid 1 black;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: larger;
+    font-weight: 900;
+    font-style: unset;
+    border-radius: 5px;
+}
+
+.principal{
+    border: solid 1 black;
+    width: 750px;
+    height: 1000px;
+    min-width: 500px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.laederboard{
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    width: auto;
+    height: 350px;
+    border: solid 1 black;
+}
+
+.cps , .tiempo{
+    border: solid 1px;
+    align-items: left;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: small;
+    justify-content: space-between;
+}
+.cps.tiempo>p{
+    color: red;
+    font-size: small;
+    font-family: 'Courier New', Courier, monospace;
+    justify-content: space-between;
+}
