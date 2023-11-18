@@ -1,0 +1,96 @@
+#imagenDiv>img {
+    width: 350px;
+}
+
+body {
+    font-family: 'Press Start 2P', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+    color: #fff;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+}
+
+.titulo {
+    font-size: 24px;
+}
+
+.principal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.laederboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cps,
+.tiempo {
+    margin-bottom: 20px;
+}
+
+img {
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+img:hover {
+    transform: scale(1.1);
+}
+
+.p {
+    margin: 0;
+    font-size: 18px;
+}
+
+.clicks,
+.tiempo,
+.clicks-per-second {
+    font-weight: bold;
+    font-size: 24px;
+    color: #fff;
+}
+
+.clicks-per-second {
+    margin-top: 10px;
+}
+
+/* Estilo de diseño arcade */
+body {
+    background-color: #000;
+}
+
+.principal {
+    border: 2px solid #fff;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.clicks,
+.tiempo,
+.clicks-per-second {
+    text-align: center;
+    text-shadow: 2px 2px 5px #000;
+}
+
+a {
+    color: #fff;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #f00;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
