@@ -6,12 +6,13 @@ body {
     font-family: 'Press Start 2P', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #000;
+    background-color: #d3c5c5;
     color: #fff;
+    background: radial-gradient(#ecebe8, 20%, #141413);
 }
 
 header {
-    background-color: #333;
+    background-color: #9a9595;
     color: #fff;
     padding: 10px;
     text-align: center;
@@ -67,9 +68,6 @@ img:hover {
 }
 
 /* Estilo de diseño arcade */
-body {
-    background-image: url('images/pacmaze.png');
-}
 
 .principal {
     border: 2px solid #fff;
