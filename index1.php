@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BongoCat Game</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="Styles\style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
 </head>
 
@@ -26,6 +26,10 @@
                     </select>
             </div>
 
+            <div class="TiempoSelected">
+                <p class="selectedT"></p>
+            </div>
+
         <div class="cps">
             <p>¡Haz clic en BongoCat para ganar!</p>
             <p id="cpsText">Clics por Segundo: 0 CPS</p>
@@ -43,30 +47,26 @@
     </section>
 
     <?php
-$imagenDiv = $_POST['imagenDiv'];
-$BongoClap = $_POST['BongoClap'];
-$cpsTextElement = $_POST['cpsText'];
-$tiempoSelect = $_POST['Temp'];
+session_start();
 
-$isClapImage = true;
-$clickCount = 0;
-$startTime = null;
-$inactivityTimeout = null;
-$clickRate = 0;
+// Conexión a la base de datos
+$db = new mysqli('localhost', 'root', '123456', 'registro');
 
-// Cambia la imagen y actualiza el texto al hacer clic
-if (isset($_POST['imagenDiv'])) {
-    resetInactivityTimeout();
-    $isClapImage = !$isClapImage;
-    $clickCount++;
-    updateImage();
-    updateClickRate();
+if ($db->connect_error) {
+    die("Error de conexión: " . $db->connect_error);
 }
+
+// Variables
+$imagenDiv = isset($_POST['imagenDiv']) ? $_POST['imagenDiv'] : null;
+$BongoClap = isset($_POST['BongoClap']) ? $_POST['BongoClap'] : 'Frames\\CLAP.webp';
+$cpsTextElement = isset($_POST['cpsText']) ? $_POST['cpsText'] : 'Clics por segundo: 0 CPS';
+$tiempoSelect = isset($_POST['Temp']) ? $_POST['Temp'] : 5;
+$usuario = $_SESSION['usuario']; // Asegúrate de que el usuario haya iniciado sesión
 
 // Función para cambiar la imagen y actualizar el texto
 function updateImage() {
-    global $BongoClap, $isClapImage;
-    $BongoClap = $isClapImage ? 'Frames\\CLAP.webp' : 'Frames\\UP.webp';
+    global $BongoClap;
+    $BongoClap = $BongoClap == 'Frames\\CLAP.webp' ? 'Frames\\UP.webp' : 'Frames\\CLAP.webp';
 }
 
 // Función para actualizar y mostrar la tasa de clics por segundo acumulada
@@ -79,36 +79,32 @@ function updateClickRate() {
     $cpsTextElement = "Clics por segundo: " . number_format($clickRate, 2);
 }
 
-// Función para reiniciar el temporizador de inactividad
-function resetInactivityTimeout() {
-    global $inactivityTimeout, $startTime, $tiempoSelect;
-    $selectedTime = intval($tiempoSelect);
+// Función para guardar la puntuación en la base de datos
+function guardarPuntuacion($usuario, $tiempo, $clicks, $cps) {
+    global $db;
+    $puntuacion = $cps * $clicks; // Calcula la puntuación aquí
 
-    if (!$startTime) {
-        $startTime = microtime(true);
-        $inactivityTimeout = setTimeout(function () {
-            showPopup();
-            resetGame();
-        }, $selectedTime * 1000);
+    $stmt = $db->prepare("INSERT INTO puntuaciones (usuario, tiempo, clicks, cps, puntuacion) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("siidd", $usuario, $tiempo, $clicks, $cps, $puntuacion);
+
+    if ($stmt->execute()) {
+        echo "Puntuación guardada con éxito.";
+    } else {
+        echo "Error al guardar la puntuación: " . $stmt->error;
+    }
+
+    $stmt->close();
+}
+
+// Lógica del juego
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    updateImage();
+    updateClickRate();
+
+    if ($clickCount >= $tiempoSelect) {
+        guardarPuntuacion($usuario, $tiempoSelect, $clickCount, $clickRate);
     }
 }
-
-// Función para mostrar el mensaje emergente
-function showPopup() {
-    global $selectedTime;
-    echo "¡Juego terminado! Se alcanzó el tiempo seleccionado de $selectedTime segundos.";
-}
-
-// Función para reiniciar el juego
-function resetGame() {
-    global $clickCount, $startTime, $clickRate, $cpsTextElement;
-    $clickCount = 0;
-    $startTime = null;
-    $clickRate = 0;
-    $cpsTextElement = 'Clics por segundo: 0.00';
-}
 ?>
-
-
 </body>
 </html>
