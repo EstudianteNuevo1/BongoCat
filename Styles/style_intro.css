@@ -136,11 +136,14 @@ nav ul li:not(:last-child) a:focus{
 }
 .image{
     position: absolute;
-    width: 100%;
-    height: 85%;
+    width: 80%;
+    height: 60%;
+    margin-right: 100px;
     bottom: 0;
+    margin: 90px;
     right: 0;
     text-align: right;
+    display: block;
 }
 .image img{
     height: 100%;
